@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 
-function ImagesLikes(urls, alt) {
+function ImagesLikes({ image }) {
   return (
     <div className="m-2">
-      salom
-      {/* <img className="block w-full" src={urls.regular} alt={alt} /> */}
+      <img className="block w-full" src={image} />
     </div>
   );
 }

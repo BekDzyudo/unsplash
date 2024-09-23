@@ -11,6 +11,9 @@ import { GlobalContext } from "../../context/globalContext";
 
 function Images({ urls, alt, profilImg, name }) {
   const [active, setActive] = useState(false);
+  const { setLikeImageArr, likeImageArr } = useContext(GlobalContext);
+  const [heardActive, setHeardActive] = useState(false);
+  // localStorage.setItem("activeHeard", JSON.stringify(heardActive));
 
   return (
     <div
@@ -22,8 +25,27 @@ function Images({ urls, alt, profilImg, name }) {
       {active && (
         <div>
           <div className="topBtn absolute top-3 right-3 flex gap-4">
-            <div className="like border-2 border-none cursor-pointer p-2 rounded-md bg-gray-200 hover:bg-gray-300">
-              <FaHeart />
+            <div
+              onClick={() => {
+                if (!likeImageArr.includes(urls.regular)) {
+                  setLikeImageArr([...likeImageArr, urls.regular]);
+                } else {
+                  const index = likeImageArr.indexOf(urls.regular);
+
+                  if (index !== -1) {
+                    likeImageArr.splice(index, 1);
+                    setLikeImageArr([...likeImageArr]);
+                  }
+                }
+                setHeardActive(!heardActive);
+              }}
+              className={`like border-2 border-none cursor-pointer p-2 rounded-md ${
+                heardActive ? "bg-red-800" : "bg-gray-200"
+              } `}
+            >
+              <FaHeart
+                className={`${heardActive ? "text-white" : "bg-gray-200"}`}
+              />
             </div>
             <div className="plus like border-2 border-none cursor-pointer p-2 rounded-md bg-gray-200 hover:bg-gray-300">
               <FaPlus />
@@ -31,7 +53,9 @@ function Images({ urls, alt, profilImg, name }) {
           </div>
           <div className="bottomRightBtn absolute bottom-3 right-3">
             <div className="download like border-2 border-none cursor-pointer p-2 rounded-md bg-gray-200 hover:bg-gray-300">
-              <MdOutlineFileDownload className="text-2xl" />
+              <a href={urls.regular} download target="blank">
+                <MdOutlineFileDownload className="text-2xl" />
+              </a>
             </div>
           </div>
           <div className="bottomLeftBtn absolute bottom-3 left-3 flex items-center gap-2">
