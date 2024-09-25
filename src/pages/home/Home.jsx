@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { GlobalContext } from "../../context/globalContext";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import Images from "./Images";
@@ -6,14 +6,15 @@ import { FcSearch } from "react-icons/fc";
 import { Toaster, toast } from "react-hot-toast";
 
 function Home() {
-  const { images, setSearchValue, setPerPage, per_page } =
+  const { images, setPageNum, pageNum, per_page, likeImageArr, dispatch } =
     useContext(GlobalContext);
+
   const searchValue = useRef();
 
   function searchFunck(e) {
     e.preventDefault();
     if (searchValue.current.value) {
-      setSearchValue(searchValue.current.value);
+      dispatch({ type: "SEARCH_VALUE", payload: searchValue.current.value });
     } else if (!searchValue.current.value) {
       toast.error("maydonni to'ldiring!");
     }
@@ -46,6 +47,10 @@ function Home() {
                   alt={item.alt_description}
                   profilImg={item.user.profile_image.small}
                   name={item.user.name}
+                  links={item.links}
+                  likedImage={likeImageArr.some(
+                    (img) => img == item.urls.regular
+                  )}
                 />
               );
             })}
@@ -53,7 +58,11 @@ function Home() {
       </ResponsiveMasonry>
       <div className="flex items-center justify-center m-5">
         <button
-          onClick={() => setPerPage(per_page + 10)}
+          onClick={() => {
+            // setPageNum(pageNum + 1);
+
+            dispatch({ type: "PER_PAGE", payload: per_page + 10 });
+          }}
           className="px-20 py-2 rounded-lg text-white text-lg bg-gray-400"
         >
           Read more

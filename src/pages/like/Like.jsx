@@ -5,7 +5,6 @@ import ImagesLikes from "./ImagesLikes";
 
 function Like() {
   const { likeImageArr } = useContext(GlobalContext);
-  console.log(likeImageArr);
 
   return (
     <div className="py-3 align-elements">
