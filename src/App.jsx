@@ -5,6 +5,8 @@ import Home from "./pages/home/Home";
 import About from "./pages/about/About";
 import Contact from "./pages/contact/Contaxt";
 import Like from "./pages/like/Like";
+import Download from "./pages/download/Download";
+import ImageInfo from "./pages/ImageInfo/ImageInfo";
 // import { action as HomeActions } from "./pages/home/Home";
 
 function App() {
@@ -29,6 +31,14 @@ function App() {
         {
           path: "/likes",
           element: <Like />,
+        },
+        {
+          path: "/download-images",
+          element: <Download />,
+        },
+        {
+          path: "/image-info",
+          element: <ImageInfo />,
         },
       ],
     },

@@ -7,7 +7,7 @@ function Like() {
   const { likeImageArr } = useContext(GlobalContext);
 
   return (
-    <div className="py-3 align-elements">
+    <div className="py-3 align-elements h-screen">
       <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}>
         <Masonry>
           {likeImageArr.length &&

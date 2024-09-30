@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { GlobalContext } from "../context/globalContext";
 // icon heart
-import { FaHeart, FaMoon, FaSun } from "react-icons/fa";
+import { FaDownload, FaHeart, FaMoon, FaSun } from "react-icons/fa";
 import { FcStackOfPhotos } from "react-icons/fc";
 
 function themeLocalStorage() {
@@ -10,7 +10,7 @@ function themeLocalStorage() {
 }
 
 function Navbar() {
-  const { likeImageArr } = useContext(GlobalContext);
+  const { likeImageArr, downloadImagesArr } = useContext(GlobalContext);
 
   const [theme, setTheme] = useState(themeLocalStorage());
   const toogleTheme = () => {
@@ -71,6 +71,14 @@ function Navbar() {
           </ul>
         </nav>
         <div className="navbar-end flex items-center gap-4">
+          <Link to="/download-images">
+            <div className="indicator">
+              <span className="indicator-item badge badge-secondary">
+                {downloadImagesArr.length}
+              </span>
+              <FaDownload className="text-red-70 text-3xl m-1" />
+            </div>
+          </Link>
           <Link to="/likes">
             <div className="indicator">
               <span className="indicator-item badge badge-secondary">

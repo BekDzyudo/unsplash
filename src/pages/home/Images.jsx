@@ -8,9 +8,11 @@ import { MdOutlineFileDownload } from "react-icons/md";
 // plus
 import { FaPlus } from "react-icons/fa6";
 import { GlobalContext } from "../../context/globalContext";
+import { Link } from "react-router-dom";
 
 function Images({ urls, alt, profilImg, name, links, likedImage }) {
-  const { likeImageArr, dispatch } = useContext(GlobalContext);
+  const { likeImageArr, downloadImagesArr, dispatch, setMore } =
+    useContext(GlobalContext);
 
   return (
     <div className="m-2 relative top-0 left-0 group">
@@ -38,7 +40,7 @@ function Images({ urls, alt, profilImg, name, links, likedImage }) {
                   });
                 }
               }
-              setHeardActive(!heardActive);
+              // setHeardActive(!heardActive);
               // ====
             }}
             className={`like border-2 border-none cursor-pointer p-2 rounded-md text-black ${
@@ -54,7 +56,31 @@ function Images({ urls, alt, profilImg, name, links, likedImage }) {
           </div>
         </div>
         <div className="bottomRightBtn absolute bottom-3 right-3">
-          <div className="download like border-2 border-none cursor-pointer p-2 rounded-md bg-gray-200 hover:bg-gray-300">
+          <div
+            onClick={() => {
+              if (!downloadImagesArr.includes(urls.regular)) {
+                dispatch({
+                  type: "DOWNLOAD_IMAGE_ARR",
+                  payload: [...downloadImagesArr, urls.regular],
+                });
+              }
+              // ====
+              else {
+                const index = downloadImagesArr.indexOf(urls.regular);
+
+                if (index !== -1) {
+                  downloadImagesArr.splice(index, 1);
+                  dispatch({
+                    type: "DOWNLOAD_IMAGE_ARR",
+                    payload: [...downloadImagesArr],
+                  });
+                }
+              }
+              // setHeardActive(!heardActive);
+              // ====
+            }}
+            className="download like border-2 border-none cursor-pointer p-2 rounded-md bg-gray-200 hover:bg-gray-300"
+          >
             <a
               href={links.download + "&force=true"}
               rel="nofollow"
@@ -65,7 +91,17 @@ function Images({ urls, alt, profilImg, name, links, likedImage }) {
             </a>
           </div>
         </div>
-        <div className="bottomLeftBtn absolute bottom-3 left-3 flex items-center gap-2">
+        <Link
+          onClick={() => {
+            setMore({
+              alt,
+              imageUrl: urls.regular,
+              name,
+            });
+          }}
+          to="/image-info"
+          className="bottomLeftBtn absolute bottom-3 left-3 flex items-center gap-2"
+        >
           <div className="w-10 h-10 cursor-pointer">
             <img
               src={profilImg}
@@ -79,7 +115,7 @@ function Images({ urls, alt, profilImg, name, links, likedImage }) {
             </h4>
             {/* <p className="text-gray-50 font-light text-xs">{alt}</p> */}
           </div>
-        </div>
+        </Link>
       </div>
     </div>
   );

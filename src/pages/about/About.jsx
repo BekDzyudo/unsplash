@@ -3,7 +3,7 @@ import kamina from "../../../public/assets/kamina.jpg";
 
 function About() {
   return (
-    <div className="align-elements py-5">
+    <div className="align-elements py-5 h-screen">
       <div
         style={{
           boxShadow:
