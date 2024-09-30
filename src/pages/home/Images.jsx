@@ -26,20 +26,22 @@ function Images({ urls, alt, profilImg, name, links, likedImage }) {
                   payload: [...likeImageArr, urls.regular],
                 });
               }
-              // else {
-              //   const index = likeImageArr.indexOf(urls.regular);
+              // ====
+              else {
+                const index = likeImageArr.indexOf(urls.regular);
 
-              //   if (index !== -1) {
-              //     likeImageArr.splice(index, 1);
-              //     dispatch({
-              //       type: "LIKE_IMAGE_ARR",
-              //       payload: [...likeImageArr],
-              //     });
-              //   }
-              // }
-              // setHeardActive(!heardActive);
+                if (index !== -1) {
+                  likeImageArr.splice(index, 1);
+                  dispatch({
+                    type: "LIKE_IMAGE_ARR",
+                    payload: [...likeImageArr],
+                  });
+                }
+              }
+              setHeardActive(!heardActive);
+              // ====
             }}
-            className={`like border-2 border-none cursor-pointer p-2 rounded-md ${
+            className={`like border-2 border-none cursor-pointer p-2 rounded-md text-black ${
               likedImage ? "bg-red-800" : "bg-gray-200"
             } `}
           >
@@ -48,7 +50,7 @@ function Images({ urls, alt, profilImg, name, links, likedImage }) {
             />
           </div>
           <div className="plus like border-2 border-none cursor-pointer p-2 rounded-md bg-gray-200 hover:bg-gray-300">
-            <FaPlus />
+            <FaPlus className="text-black" />
           </div>
         </div>
         <div className="bottomRightBtn absolute bottom-3 right-3">
@@ -59,7 +61,7 @@ function Images({ urls, alt, profilImg, name, links, likedImage }) {
               download
               target="_blank"
             >
-              <MdOutlineFileDownload className="text-2xl" />
+              <MdOutlineFileDownload className="text-2xl text-black" />
             </a>
           </div>
         </div>
@@ -72,8 +74,10 @@ function Images({ urls, alt, profilImg, name, links, likedImage }) {
             />
           </div>
           <div className="desc" style={{ maxWidth: "170px" }}>
-            <h4 className="text-white font-medium">{name}</h4>
-            <p className="text-gray-50 font-light text-xs">{alt}</p>
+            <h4 className="text-white font-medium text-sm md:text-lg">
+              {name}
+            </h4>
+            {/* <p className="text-gray-50 font-light text-xs">{alt}</p> */}
           </div>
         </div>
       </div>

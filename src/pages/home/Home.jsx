@@ -4,10 +4,21 @@ import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import Images from "./Images";
 import { FcSearch } from "react-icons/fc";
 import { Toaster, toast } from "react-hot-toast";
+import Search from "../../components/Search";
+import { useActionData } from "react-router-dom";
+import { FaSearch } from "react-icons/fa";
+
+// export const action = async ({ request }) => {
+//   let formData = await request.formData();
+//   let search = formData.get("search");
+//   return search;
+// };
 
 function Home() {
   const { images, setPageNum, pageNum, per_page, likeImageArr, dispatch } =
     useContext(GlobalContext);
+  // const val = useActionData();
+  // console.log(val);
 
   const searchValue = useRef();
 
@@ -22,16 +33,24 @@ function Home() {
 
   return (
     <div className="py-3 align-elements">
-      <div>
-        <form action="" className="flex items-center gap-3">
-          <input
-            ref={searchValue}
-            type="search"
-            className="border-2 rounded outline-none p-1 border-gray-500"
-            placeholder="search..."
-          />
-          <button onClick={searchFunck}>
-            <FcSearch className="text-2xl" />
+      <div className="my-2">
+        {/* <Search /> */}
+        <form action="" className="max-w-96 mx-auto gap-2 w-full flex">
+          <label className="input input-bordered flex items-center gap-2 w-full input-sm md:input-md">
+            <input
+              ref={searchValue}
+              type="search"
+              className="grow"
+              placeholder="Search"
+              name="search"
+            />
+            <FaSearch className="h-4 w-4 opacity-70" />
+          </label>
+          <button
+            onClick={searchFunck}
+            className="btn btn-primary md:hidden btn-sm"
+          >
+            Search
           </button>
         </form>
         <Toaster />

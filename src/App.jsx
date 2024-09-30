@@ -5,6 +5,7 @@ import Home from "./pages/home/Home";
 import About from "./pages/about/About";
 import Contact from "./pages/contact/Contaxt";
 import Like from "./pages/like/Like";
+// import { action as HomeActions } from "./pages/home/Home";
 
 function App() {
   const routes = createBrowserRouter([
@@ -15,6 +16,7 @@ function App() {
         {
           index: true,
           element: <Home />,
+          // action: HomeActions,
         },
         {
           path: "/about",

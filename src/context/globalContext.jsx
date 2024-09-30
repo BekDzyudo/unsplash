@@ -33,7 +33,9 @@ export function GlobalContextProvider({ children }) {
   useEffect(() => {
     localStorage.setItem("likeImagesArr", JSON.stringify(state.likeImageArr));
     fetch(
-      `https://api.unsplash.com/search/photos?client_id=RRVvRp7SkQ-zBpNfkk9i1YLCNn7W7M4x-5dC10sJiD8&query=${state.searchValue}&page=1&per_page=${state.per_page}`
+      `https://api.unsplash.com/search/photos?client_id=${
+        import.meta.env.VITE_ACCESS_KEY
+      }&query=${state.searchValue ?? "all"}&page=1&per_page=${state.per_page}`
     )
       .then((res) => res.json())
       .then((data) => {
