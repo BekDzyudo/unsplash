@@ -10,7 +10,8 @@ function themeLocalStorage() {
 }
 
 function Navbar() {
-  const { likeImageArr, downloadImagesArr } = useContext(GlobalContext);
+  const { likeImageArr, downloadImagesArr, user } = useContext(GlobalContext);
+  console.log(user);
 
   const [theme, setTheme] = useState(themeLocalStorage());
   const toogleTheme = () => {
@@ -24,15 +25,15 @@ function Navbar() {
   }, [theme]);
 
   return (
-    <header className="py-3 bg-base-300">
-      <div className="navbar flex justify-between items-center align-elements">
+    <header className="bg-base-300 py-3">
+      <div className="align-elements navbar flex items-center justify-between">
         <div className="navbar-start">
           <Link>
-            <FcStackOfPhotos className="text-6xl hidden md:flex" />
+            <FcStackOfPhotos className="hidden text-6xl md:flex" />
           </Link>
           <Link className="dropdown">
             <FcStackOfPhotos className="text-6xl md:hidden" />
-            <ul className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+            <ul className="menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow">
               <li>
                 <Link to="/" className="font-medium hover:text-black">
                   Home
@@ -51,8 +52,8 @@ function Navbar() {
             </ul>
           </Link>
         </div>
-        <nav className="hidden md:flex navbar-center">
-          <ul className="flex gap-5 items-center">
+        <nav className="navbar-center hidden md:flex">
+          <ul className="flex items-center gap-5">
             <li>
               <Link to="/" className="font-medium hover:text-primary">
                 Home
@@ -70,32 +71,67 @@ function Navbar() {
             </li>
           </ul>
         </nav>
-        <div className="navbar-end flex items-center gap-4">
+        <div className="navbar-end flex items-center gap-3 md:gap-4">
           <Link to="/download-images">
             <div className="indicator">
-              <span className="indicator-item badge badge-secondary">
+              <span className="badge indicator-item badge-secondary">
                 {downloadImagesArr.length}
               </span>
-              <FaDownload className="text-red-70 text-3xl m-1" />
+              <FaDownload className="text-red-70 m-1 text-xl md:text-3xl" />
             </div>
           </Link>
           <Link to="/likes">
             <div className="indicator">
-              <span className="indicator-item badge badge-secondary">
+              <span className="badge indicator-item badge-secondary">
                 {likeImageArr.length}
               </span>
-              <FaHeart className="text-red-70 text-3xl m-1" />
+              <FaHeart className="text-red-70 m-1 text-xl md:text-3xl" />
             </div>
           </Link>
           <label className="swap swap-rotate">
             <input type="checkbox" onClick={toogleTheme} />
 
             {/* sun icon */}
-            <FaSun className="swap-on h-7 w-7 fill-current" />
+            <FaSun className="swap-on h-5 w-5 fill-current md:h-7 md:w-7" />
 
             {/* moon icon */}
-            <FaMoon className="swap-off h-7 w-7 fill-current" />
+            <FaMoon className="swap-off h-5 w-5 fill-current md:h-7 md:w-7" />
           </label>
+          {/* dropdown Avatar */}
+          <div className="hidden items-center gap-1 md:flex">
+            <p>{user.displayName.split(" ")[0]}</p>
+            <div className="dropdown dropdown-end">
+              <div
+                tabIndex={0}
+                role="button"
+                className="avatar btn btn-circle btn-ghost"
+              >
+                <div className="w-10 rounded-full">
+                  <img
+                    alt="Tailwind CSS Navbar component"
+                    src={user.photoURL}
+                  />
+                </div>
+              </div>
+              <ul
+                tabIndex={0}
+                className="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
+              >
+                <li>
+                  <a className="justify-between">
+                    Profile
+                    <span className="badge">New</span>
+                  </a>
+                </li>
+                <li>
+                  <a>Settings</a>
+                </li>
+                <li>
+                  <a>Logout</a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </header>

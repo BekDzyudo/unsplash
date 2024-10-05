@@ -6,6 +6,10 @@ const changeState = (state, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case "LOGIN":
+      return { ...state, user: payload };
+    case "LOGOUT":
+      return { ...state, user: null };
     case "CHANGE_IMAGES":
       // return { ...state, images: [...state.images, ...payload] };
       return { ...state, images: payload };
@@ -27,24 +31,26 @@ export function GlobalContextProvider({ children }) {
   const [more, setMore] = useState({});
 
   const [state, dispatch] = useReducer(changeState, {
+    user: null,
     images: [],
     searchValue: "all",
     per_page: 10,
-    likeImageArr: JSON.parse(localStorage.getItem("likeImagesArr")) || [],
-    downloadImagesArr:
-      JSON.parse(localStorage.getItem("downloadImagesArr")) || [],
+    likeImageArr: [],
+    downloadImagesArr: [],
   });
+  // JSON.parse(localStorage.getItem("likeImagesArr"))
+  // JSON.parse(localStorage.getItem("downloadImagesArr"))
   //  import.meta.env.VITE_ACCESS_KEY
   useEffect(() => {
     localStorage.setItem("likeImagesArr", JSON.stringify(state.likeImageArr));
     localStorage.setItem(
       "downloadImagesArr",
-      JSON.stringify(state.downloadImagesArr)
+      JSON.stringify(state.downloadImagesArr),
     );
     fetch(
       `https://api.unsplash.com/search/photos?client_id=RRVvRp7SkQ-zBpNfkk9i1YLCNn7W7M4x-5dC10sJiD8&query=${
         state.searchValue ?? "all"
-      }&page=1&per_page=${state.per_page}`
+      }&page=1&per_page=${state.per_page}`,
     )
       .then((res) => res.json())
       .then((data) => {
