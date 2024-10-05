@@ -2,19 +2,21 @@ import { useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Form, Link, useActionData } from "react-router-dom";
 import FormInput from "../../components/FormInput";
+import { useRegister } from "../../hooks/useRegister";
 
 export const action = async ({ request }) => {
   let formData = await request.formData();
-  let fullName = formData.get("full-name");
+  let fullName = formData.get("full_name");
   let password = formData.get("password");
   return { fullName, password };
 };
 
 function Login() {
+  const { registerWithGoogle } = useRegister();
   const data = useActionData();
   useEffect(() => {
     if (data) {
-      console.log(data);
+      // console.log(data);
     }
   }, [data]);
 
@@ -23,17 +25,20 @@ function Login() {
       <div className="mx-2 flex w-full max-w-96 flex-col items-center gap-4 rounded-xl bg-sky-600 px-2 py-5 md:px-8">
         <h1 className="text-2xl text-white">LOGIN</h1>
         <Form method="post" className="flex w-full flex-col gap-2">
-          <FormInput name="full-name" type="email" placeholder="Email" />
+          <FormInput name="full_name" type="email" placeholder="Email" />
           <FormInput name="password" type="password" placeholder="password" />
           <div className="mt-5 flex flex-col gap-3">
             <button className="rounded-3xl border bg-sky-400 py-1 text-xl text-white hover:bg-sky-500">
               Login
             </button>
-            <button className="flex items-center justify-center gap-2 rounded-3xl border bg-sky-400 py-1 text-xl text-white hover:bg-sky-500">
+            <button
+              onClick={registerWithGoogle}
+              className="flex items-center justify-center gap-2 rounded-3xl border bg-sky-400 py-1 text-xl text-white hover:bg-sky-500"
+            >
               Google {<FcGoogle className="text-2xl" />}
             </button>
           </div>
-          <div className="flex justify-between">
+          <div className="flex flex-col justify-between text-center sm:flex-row">
             <Link className="link text-sm text-white">Forget password?</Link>
             <Link
               to="/register"

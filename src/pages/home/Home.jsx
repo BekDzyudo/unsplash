@@ -3,7 +3,7 @@ import { GlobalContext } from "../../context/globalContext";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import Images from "./Images";
 import { FcSearch } from "react-icons/fc";
-import { Toaster, toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 import Search from "../../components/Search";
 import { useActionData } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
@@ -32,11 +32,11 @@ function Home() {
   }
 
   return (
-    <div className="py-3 align-elements">
+    <div className="align-elements py-3">
       <div className="my-2">
         {/* <Search /> */}
-        <form action="" className="max-w-96 mx-auto gap-2 w-full flex">
-          <label className="input input-bordered flex items-center gap-2 w-full input-sm md:input-md">
+        <form action="" className="mx-auto flex w-full max-w-96 gap-2">
+          <label className="input input-sm input-bordered flex w-full items-center gap-2 md:input-md">
             <input
               ref={searchValue}
               type="search"
@@ -48,12 +48,11 @@ function Home() {
           </label>
           <button
             onClick={searchFunck}
-            className="btn btn-primary md:hidden btn-sm"
+            className="btn btn-primary btn-sm md:hidden"
           >
             Search
           </button>
         </form>
-        <Toaster />
       </div>
       <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}>
         <Masonry>
@@ -68,21 +67,21 @@ function Home() {
                   name={item.user.name}
                   links={item.links}
                   likedImage={likeImageArr.some(
-                    (img) => img == item.urls.regular
+                    (img) => img == item.urls.regular,
                   )}
                 />
               );
             })}
         </Masonry>
       </ResponsiveMasonry>
-      <div className="flex items-center justify-center m-5">
+      <div className="m-5 flex items-center justify-center">
         <button
           onClick={() => {
             // setPageNum(pageNum + 1);
 
             dispatch({ type: "PER_PAGE", payload: per_page + 10 });
           }}
-          className="px-20 py-2 rounded-lg text-white text-lg bg-gray-400"
+          className="rounded-lg bg-gray-400 px-20 py-2 text-lg text-white"
         >
           Read more
         </button>

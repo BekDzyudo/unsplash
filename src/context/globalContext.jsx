@@ -8,6 +8,8 @@ const changeState = (state, action) => {
   switch (type) {
     case "LOGIN":
       return { ...state, user: payload };
+    case "AUTH_READY":
+      return { ...state, authReady: true };
     case "LOGOUT":
       return { ...state, user: null };
     case "CHANGE_IMAGES":
@@ -32,6 +34,7 @@ export function GlobalContextProvider({ children }) {
 
   const [state, dispatch] = useReducer(changeState, {
     user: null,
+    authReady: false,
     images: [],
     searchValue: "all",
     per_page: 10,

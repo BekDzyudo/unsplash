@@ -5,18 +5,34 @@ import { GlobalContext } from "../context/globalContext";
 import { FaDownload, FaHeart, FaMoon, FaSun } from "react-icons/fa";
 import { FcStackOfPhotos } from "react-icons/fc";
 
+// firebase imports
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase/firebaseConfig";
+import { toast } from "react-toastify";
+
 function themeLocalStorage() {
   return localStorage.getItem("theme") || "winter";
 }
 
 function Navbar() {
-  const { likeImageArr, downloadImagesArr, user } = useContext(GlobalContext);
-  console.log(user);
+  const { likeImageArr, downloadImagesArr, user, dispatch } =
+    useContext(GlobalContext);
 
   const [theme, setTheme] = useState(themeLocalStorage());
   const toogleTheme = () => {
     const newTheme = theme == "winter" ? "dracula" : "winter";
     setTheme(newTheme);
+  };
+
+  const signOutUser = async () => {
+    try {
+      await signOut(auth);
+      toast.success("See you soon");
+
+      dispatch({ type: "LOGOUT" });
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   useEffect(() => {
@@ -99,7 +115,7 @@ function Navbar() {
           </label>
           {/* dropdown Avatar */}
           <div className="hidden items-center gap-1 md:flex">
-            <p>{user.displayName.split(" ")[0]}</p>
+            <p>{user.displayName && user.displayName.split(" ")[0]}</p>
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
@@ -107,10 +123,12 @@ function Navbar() {
                 className="avatar btn btn-circle btn-ghost"
               >
                 <div className="w-10 rounded-full">
-                  <img
-                    alt="Tailwind CSS Navbar component"
-                    src={user.photoURL}
-                  />
+                  {user.photoURL && (
+                    <img
+                      alt="Tailwind CSS Navbar component"
+                      src={user.photoURL}
+                    />
+                  )}
                 </div>
               </div>
               <ul
@@ -127,7 +145,7 @@ function Navbar() {
                   <a>Settings</a>
                 </li>
                 <li>
-                  <a>Logout</a>
+                  <button onClick={signOutUser}>Logout</button>
                 </li>
               </ul>
             </div>

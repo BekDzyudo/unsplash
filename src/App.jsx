@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   createBrowserRouter,
   Navigate,
@@ -15,10 +15,12 @@ import Register, { action as RegisterAction } from "./pages/register/Register";
 import Login, { action as LoginAction } from "./pages/login/Login";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import { GlobalContext } from "./context/globalContext";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase/firebaseConfig";
 // import { action as HomeActions } from "./pages/home/Home";
 
 function App() {
-  let { user } = useContext(GlobalContext);
+  let { user, dispatch, authReady } = useContext(GlobalContext);
 
   const routes = createBrowserRouter([
     {
@@ -67,7 +69,15 @@ function App() {
       action: LoginAction,
     },
   ]);
-  return <RouterProvider router={routes} />;
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      dispatch({ type: "LOGIN", payload: user });
+      dispatch({ type: "AUTH_READY" });
+    });
+  }, []);
+
+  return <>{authReady && <RouterProvider router={routes} />}</>;
 }
 
 export default App;

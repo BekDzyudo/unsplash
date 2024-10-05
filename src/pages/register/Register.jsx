@@ -3,28 +3,36 @@ import { FcGoogle } from "react-icons/fc";
 import { useEffect } from "react";
 import FormInput from "../../components/FormInput";
 import { useRegister } from "../../hooks/useRegister";
+import { toast } from "react-toastify";
 
 export const action = async ({ request }) => {
   let formData = await request.formData();
   let fullName = formData.get("full-name");
   let email = formData.get("email");
   let password = formData.get("password");
-  let confirmPassword = formData.get("confirm-password");
-  return {
-    fullName,
-    email,
-    password,
-    confirmPassword,
-  };
+  let confirmPassword = formData.get("confirm_password");
+
+  if (password == confirmPassword) {
+    return {
+      fullName,
+      email,
+      password,
+      confirmPassword,
+    };
+  } else {
+    toast.warn("password is not equal!");
+    return null;
+  }
 };
 
 function Register() {
-  const { registerWithGoogle } = useRegister();
+  const { registerWithGoogle, registerWithEmail } = useRegister();
 
   const data = useActionData();
   useEffect(() => {
     if (data) {
-      // console.log(data);
+      registerWithEmail(data.fullName, data.email, data.password);
+      // console.log(data.fullName);
     }
   }, [data]);
 
@@ -37,7 +45,7 @@ function Register() {
           <FormInput name="email" type="email" placeholder="Email" />
           <FormInput name="password" type="password" placeholder="password" />
           <FormInput
-            name="confirm-password"
+            name="confirm_password"
             type="password"
             placeholder="confirm password"
           />
