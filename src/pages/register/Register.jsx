@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 export const action = async ({ request }) => {
   let formData = await request.formData();
-  let fullName = formData.get("full-name");
+  let fullName = formData.get("full_name");
   let email = formData.get("email");
   let password = formData.get("password");
   let confirmPassword = formData.get("confirm_password");
@@ -41,7 +41,7 @@ function Register() {
       <div className="mx-2 flex w-full max-w-96 flex-col items-center gap-4 rounded-xl bg-sky-600 px-2 py-5 md:px-8">
         <h1 className="text-2xl text-white">REGISTER</h1>
         <Form method="post" className="flex w-full flex-col gap-2">
-          <FormInput name="full-name" type="text" placeholder="User name" />
+          <FormInput name="full_name" type="text" placeholder="User name" />
           <FormInput name="email" type="email" placeholder="Email" />
           <FormInput name="password" type="password" placeholder="password" />
           <FormInput

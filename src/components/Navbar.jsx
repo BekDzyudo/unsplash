@@ -115,7 +115,7 @@ function Navbar() {
           </label>
           {/* dropdown Avatar */}
           <div className="hidden items-center gap-1 md:flex">
-            <p>{user.displayName && user.displayName.split(" ")[0]}</p>
+            {/* <p>{user.displayName && user.displayName.split(" ")[0]}</p> */}
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
