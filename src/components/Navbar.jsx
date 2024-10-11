@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { GlobalContext } from "../context/globalContext";
 // icon heart
 import { FaDownload, FaHeart, FaMoon, FaSun } from "react-icons/fa";
