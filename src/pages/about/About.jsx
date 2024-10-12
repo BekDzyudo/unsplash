@@ -1,14 +1,10 @@
 import React from "react";
 import kamina from "../../../public/assets/kamina.jpg";
-import { useCollection } from "../../hooks/useCollection";
 
 function About() {
-  // const { data } = useCollection("images");
-  useCollection("images");
-
   return (
     <div className="align-elements h-screen py-5">
-      {/* <div
+      <div
         style={{
           boxShadow:
             "rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset",
@@ -33,20 +29,8 @@ function About() {
             Professional Education
           </p>
         </div>
-      </div> */}
-      {/* {data &&
-        data.map((todo) => {
-          return (
-            <div>
-              <div>
-                <h1>{todo.title}</h1>
-                <p>{todo.description}</p>
-              </div>
-            </div>
-          );
-        })} */}
+      </div>
     </div>
   );
 }
-
 export default About;

@@ -61,13 +61,9 @@ function Home() {
               return (
                 <Images
                   key={item.id}
-                  urls={item.urls}
-                  alt={item.alt_description}
-                  profilImg={item.user.profile_image.small}
-                  name={item.user.name}
-                  links={item.links}
+                  imgData={item}
                   likedImage={likeImageArr.some(
-                    (img) => img == item.urls.regular,
+                    (img) => img.urls.regular == item.urls.regular,
                   )}
                 />
               );

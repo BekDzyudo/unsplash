@@ -1,4 +1,5 @@
 import { createContext, useEffect, useReducer, useState } from "react";
+import { useCollection } from "../hooks/useCollection";
 
 export const GlobalContext = createContext();
 
@@ -41,11 +42,17 @@ export function GlobalContextProvider({ children }) {
     likeImageArr: [],
     downloadImagesArr: [],
   });
-  // JSON.parse(localStorage.getItem("likeImagesArr"))
-  // JSON.parse(localStorage.getItem("downloadImagesArr"))
+
+  const { data: likedImages } = useCollection("likeImageArr", [
+    "uid",
+    "==",
+    state.user && state.user.uid,
+  ]);
+
   //  import.meta.env.VITE_ACCESS_KEY
   useEffect(() => {
     localStorage.setItem("likeImagesArr", JSON.stringify(state.likeImageArr));
+
     localStorage.setItem(
       "downloadImagesArr",
       JSON.stringify(state.downloadImagesArr),
@@ -66,6 +73,10 @@ export function GlobalContextProvider({ children }) {
     state.downloadImagesArr,
     more,
   ]);
+
+  useEffect(() => {
+    if (likedImages) dispatch({ type: "LIKE_IMAGE_ARR", payload: likedImages });
+  }, [likedImages]);
 
   return (
     <GlobalContext.Provider

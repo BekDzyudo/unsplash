@@ -1,32 +1,31 @@
 import React, { useContext } from "react";
 import { MdDelete } from "react-icons/md";
 import { GlobalContext } from "../../context/globalContext";
+import { toast } from "react-toastify";
+import { useFirestore } from "../../hooks/useFirestore";
 
 function ImagesLikes({ image }) {
   const { likeImageArr, dispatch } = useContext(GlobalContext);
+  const { addDocument, deleteDocument } = useFirestore();
+
+  const alreadyAdded = likeImageArr.find((img) => {
+    return img.id == image.id;
+  });
+
   return (
-    <div className="m-2 relative top-0 left-0 group">
-      <img className="block w-full" src={image} />
+    <div className="group relative left-0 top-0 m-2">
+      <img className="block w-full" src={image.urls.regular} />
 
-      <div className="invisibile opacity-0 group-hover:visibile group-hover:opacity-100 transition-all duration-300">
-        <div className="topBtn absolute top-3 right-3 flex gap-4">
+      <div className="invisibile group-hover:visibile opacity-0 transition-all duration-300 group-hover:opacity-100">
+        <div className="topBtn absolute right-3 top-3 flex gap-4">
           <div
-            className="bg-gray-200 border-2 cursor-pointer p-2 rounded-md"
+            className="cursor-pointer rounded-md border-2 bg-gray-200 p-2"
             onClick={() => {
-              if (likeImageArr.includes(image)) {
-                const index = likeImageArr.indexOf(image);
-
-                if (index !== -1) {
-                  likeImageArr.splice(index, 1);
-                  dispatch({
-                    type: "LIKE_IMAGE_ARR",
-                    payload: [...likeImageArr],
-                  });
-                }
-              }
+              deleteDocument("likeImageArr", alreadyAdded._id);
+              toast.success("You deleted this image 🗑");
             }}
           >
-            <MdDelete className="text-red-700 text-2xl" />
+            <MdDelete className="text-2xl text-red-700" />
           </div>
         </div>
       </div>
