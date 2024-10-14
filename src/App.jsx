@@ -17,6 +17,7 @@ import ProtectedRoutes from "./components/ProtectedRoutes";
 import { GlobalContext } from "./context/globalContext";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebaseConfig";
+import Profile from "./pages/profile/Profile";
 // import { action as HomeActions } from "./pages/home/Home";
 
 function App() {
@@ -55,6 +56,10 @@ function App() {
         {
           path: "/image-info",
           element: <ImageInfo />,
+        },
+        {
+          path: "/profile",
+          element: <Profile />,
         },
       ],
     },

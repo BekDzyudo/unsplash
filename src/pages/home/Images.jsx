@@ -11,6 +11,7 @@ import { GlobalContext } from "../../context/globalContext";
 import { Link } from "react-router-dom";
 // import firebase
 import { useFirestore } from "../../hooks/useFirestore";
+import { toast } from "react-toastify";
 
 function Images({ imgData, likedImage }) {
   const {
@@ -25,9 +26,24 @@ function Images({ imgData, likedImage }) {
 
   const { urls, alt_description, user, links } = imgData;
 
-  const alreadyAdded = likeImageArr.find((img) => {
-    return img.id == imgData.id;
-  });
+  const addLikeImage = () => {
+    if (!authUser.emailVerified) {
+      return toast.info("Please, verify your email, Go to profile page");
+    }
+    const alreadyAdded = likeImageArr.find((img) => {
+      return img.id == imgData.id;
+    });
+
+    if (!alreadyAdded) {
+      addDocument("likeImageArr", { ...imgData, uid: authUser.uid });
+    } else {
+      deleteDocument("likeImageArr", alreadyAdded._id);
+    }
+  };
+
+  // const alreadyAdded = likeImageArr.find((img) => {
+  //   return img.id == imgData.id;
+  // });
 
   return (
     <div className="group relative left-0 top-0 m-2">
@@ -36,13 +52,7 @@ function Images({ imgData, likedImage }) {
       <div className="invisibile group-hover:visibile opacity-0 transition-all duration-300 group-hover:opacity-100">
         <div className="topBtn absolute right-3 top-3 flex gap-4">
           <div
-            onClick={() => {
-              if (!alreadyAdded) {
-                addDocument("likeImageArr", { ...imgData, uid: authUser.uid });
-              } else {
-                deleteDocument("likeImageArr", alreadyAdded._id);
-              }
-            }}
+            onClick={addLikeImage}
             className={`like cursor-pointer rounded-md border-2 border-none p-2 text-black ${
               likedImage ? "bg-red-800" : "bg-gray-200"
             } `}
@@ -63,9 +73,7 @@ function Images({ imgData, likedImage }) {
                   type: "DOWNLOAD_IMAGE_ARR",
                   payload: [...downloadImagesArr, urls.regular],
                 });
-              }
-              // ====
-              else {
+              } else {
                 const index = downloadImagesArr.indexOf(urls.regular);
 
                 if (index !== -1) {
